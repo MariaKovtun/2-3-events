@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>Лабораторная работа №2_3</title>
+	<script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() { 
+            let list = document.getElementById("list");
+
+            function createLi() {
+                let text = prompt("Введите название элемента");
+                if (text) {
+                    let newContent = document.createTextNode(text);
+                    let newElem = document.createElement("li");
+                    newElem.appendChild(newContent); 
+                    return newElem;
+                } 
+            }
+
+            document.getElementById("add_new_last").addEventListener("click", function(e) {
+                list.append(createLi());
+            });
+
+            document.getElementById("add_new_first").addEventListener("click", function(e) {
+                list.insertBefore(createLi(),list.firstElementChild);
+            });
+
+            document.getElementById("add_new_sorted").addEventListener("click", function() {
+                let newLi = createLi();
+                
+                let arr = Array.from(list.querySelectorAll('li'));
+
+                let whereToInsert = arr.findIndex(el => el.textContent > newLi.textContent);
+                list.insertBefore(newLi,list[whereToInsert]);
+            });
+
+            document.getElementById("delete").addEventListener("click", function() {
+                if (list.childElementCount > 0) {
+                    if (confirm("Подтвердить удаление последнего элемента?")) {
+                        list.lastElementChild.remove();
+                    }
+                }
+            });
+
+            document.addEventListener("click", function(e) {
+                if (e.target.matches("li")) {
+                    let prevSelected = document.querySelector('.active');
+
+                    if (prevSelected) {
+                        prevSelected.style.backgroundColor = null;
+                        prevSelected.classList.remove("active");
+                    }
+                    
+                    e.target.classList.add("active");
+                    e.target.style.backgroundColor = "red";
+                }        
+            });
+
+            document.getElementById("delete_current").addEventListener("click", function() {
+                if (confirm("Подтвердить удаление выделенного элемента?")) {
+                    document.querySelector(".active").remove();
+                }
+            });
+
+        });
+	</script>
+</head>
+<body>
+	<h1>Создание элементов</h1>
+	<ul id=list>
+		<li>Живопись</li>
+		<li>Музыка</li>
+		<li>Скульптура</li>
+	</ul>
+    <a id="add_new_last">Добавить элемент в конец списка</a><br>
+    <a id="add_new_first">Добавить элемент в начало списка</a><br>
+    <a id="add_new_sorted">Добавить элемент в алфавитном порядке</a><br>
+    <a id="delete">Удалить последний</a><br>
+    <a id="delete_current">Удалить выбранный</a><br>
+</body>
