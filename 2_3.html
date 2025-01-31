@@ -30,7 +30,7 @@
                 let arr = Array.from(list.querySelectorAll('li'));
 
                 let whereToInsert = arr.findIndex(el => el.textContent > newLi.textContent);
-                list.insertBefore(newLi,list[whereToInsert]);
+                list.insertBefore(newLi,arr[whereToInsert]);
             });
 
             document.getElementById("delete").addEventListener("click", function() {
